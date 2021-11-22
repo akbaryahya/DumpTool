@@ -4,16 +4,9 @@ echo "Set password root to $PSW and login?"
 echo "======================="
 echo -e "$PSW\n$PSW\n" | sudo passwd
 echo "======================="
-echo "Login root"
-echo "======================="
-su | echo $PSW
-echo "======================="
 echo "Update app and install packages"
 echo "======================="
-apt update
-apt upgrade -y
-apt-get install -y git make gcc libpcap-dev curl unzip zip
-apt autoremove
+echo myPassword | sudo -S apt update && apt upgrade -y && apt-get install -y git make gcc libpcap-dev curl unzip zip && apt autoremove
 echo "======================="
 echo "Clone Tool"
 echo "======================="
