@@ -6,11 +6,26 @@ echo -e "$PSW\n$PSW\n" | sudo passwd
 echo "======================="
 echo "Update app and install packages"
 echo "======================="
-echo $PSW | sudo -S apt update && apt upgrade -y && apt-get install -y git make gcc libpcap-dev curl unzip zip && apt autoremove && python -m pip install --upgrade pip
+echo $PSW | sudo -S apt update && apt upgrade -y && apt-get install -y git make gcc libpcap-dev curl unzip zip && apt autoremove && pip install --upgrade pip
 echo "======================="
 echo "Clone Tool"
 echo "======================="
-mkdir Tool && rm -r *
+mkdir Tool && cd Tool && rm -r *
+echo "======================="
+echo "Install Rclone"
+echo "======================="
+read -p "Rclone config file: " RCP
+if [ -z "$RCP" ]
+then 
+ echo "Rclone skip"
+else
+ echo "Install Rclone"
+ curl https://rclone.org/install.sh | sudo bash -s beta
+ echo "Rclone: Download file $RCP"
+ wget -O /root/.config/rclone/rclone.conf $RCP
+ echo "Rclone: Mount"
+ rclone mount backup:/ /root/backup --daemon
+fi
 echo "Install Masscan"
 git clone https://github.com/robertdavidgraham/masscan && cd masscan && make && make install && cd ..
 echo "Install Asleep Scanner"
@@ -33,15 +48,4 @@ else
  echo "Ngrok: Set Port 3389"
  nohup ./ngrok/ngrok tcp 3389 &>/dev/null &
  sudo firefox xrdp xfce4 xfce4-terminal
-fi
-echo "======================="
-echo "Install Rclone"
-echo "======================="
-read -p "Rclone config file: " NROK
-if [ -z "$NROK" ]
-then 
- echo "Rclone skip"
-else
- echo "Rclone todo"
- curl https://rclone.org/install.sh | sudo bash -s beta
 fi
