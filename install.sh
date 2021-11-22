@@ -6,7 +6,7 @@ echo -e "$PSW\n$PSW\n" | sudo passwd
 echo "======================="
 echo "Login root"
 echo "======================="
-echo $PSW | su
+su | echo $PSW
 echo "======================="
 echo "Update app and install packages"
 echo "======================="
