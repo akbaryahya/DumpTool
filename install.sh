@@ -26,7 +26,8 @@ else
  wget -O rclone.conf $RCP
  cd ..
  echo "Rclone: Mount"
- rclone mount backup:/ /root/backup --daemon
+ read -p "Server?: " MTP
+ rclone mount $MTP:/ /content/$MTP --daemon
 fi
 echo "Install Masscan"
 git clone https://github.com/robertdavidgraham/masscan && cd masscan && make && make install && cd ..
