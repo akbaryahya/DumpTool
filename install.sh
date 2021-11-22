@@ -16,7 +16,7 @@ git clone https://github.com/robertdavidgraham/masscan && cd masscan && make && 
 echo "Install Asleep Scanner"
 git clone https://github.com/d34db33f-1007/asleep_scanner && cd asleep_scanner && pip3 install -r requirements.txt & cd ..
 echo "Install Coolab"
-git clone https://github.com/songlinhou/coolab && cd coolab && pip install . && cd ..
+git clone https://github.com/songlinhou/coolab && cd coolab && pip3 install . && cd ..
 # cd ..
 echo "======================="
 echo "Install Ngrok"
