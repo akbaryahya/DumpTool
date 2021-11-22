@@ -1,61 +1,10 @@
-read -p "Set Password Root: " PSW
-echo "======================="
-echo "Set password root to $PSW and login?"
-echo "======================="
-echo -e "$PSW\n$PSW\n" | sudo passwd
-
-echo "======================="
-echo "Update app and install packages"
-echo "======================="
-echo $PSW | sudo -S apt update && apt upgrade -y && apt-get install -y git make gcc libpcap-dev curl unzip zip && apt autoremove && pip install --upgrade pip
-
 echo "======================="
 echo "Clone Tool"
 echo "======================="
 mkdir Tool && cd Tool && rm -r *
-
-echo "======================="
-echo "Install Rclone"
-echo "======================="
-read -p "Rclone config file: " RCP
-if [ -z "$RCP" ]
-then 
- echo "Rclone skip"
-else
- echo "Install Rclone"
- curl https://rclone.org/install.sh | sudo bash -s beta
- echo "Rclone: Download file $RCP"
- mkdir -p /root/.config/rclone/ && cd /root/.config/rclone/
- wget -O rclone.conf $RCP
- cd /content/
- echo "Rclone: Mount"
- read -p "Server?: " MTP
- mkdir $MTP  && rclone mount $MTP:/ $MTP --daemon
-fi
-
 echo "Install Masscan"
 git clone https://github.com/robertdavidgraham/masscan && cd masscan && make && make install && cd ..
 echo "Install Asleep Scanner"
 git clone https://github.com/d34db33f-1007/asleep_scanner && cd asleep_scanner && pip install . && cd ..
 echo "Install Coolab"
 git clone https://github.com/songlinhou/coolab && cd coolab && pip install . && cd ..
-
-echo "======================="
-echo "Install Ngrok"
-echo "======================="
-read -p "Ngrok Token: " NROK
-if [ -z "$NROK" ]
-then 
- echo "RDP skip"
-else
- echo "Ngrok Install"
- wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip && unzip ngrok.zip
- echo "Ngrok: Set Token"
- ./ngrok/ngrok authtoken $NROK
- echo "Ngrok: Set Port 3389"
- nohup ./ngrok/ngrok tcp 3389 &>/dev/null &
- sudo apt-get install -y firefox xrdp xfce4 xfce4-terminal
-fi
-
-# Ending
-cd ..
