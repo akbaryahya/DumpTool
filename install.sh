@@ -1,12 +1,12 @@
 read -p "Set Password Root: " PSW
 echo "======================="
-echo "Set password root to $CRP"
+echo "Set password root to $PSW"
 echo "======================="
-echo -e "$CRP\n$CRP\n" | sudo passwd
+echo -e "$PSW\n$PSW\n" | sudo passwd
 echo "======================="
 echo "Login root"
 echo "======================="
-echo -e "$CRP" | su
+echo -e "$PSW" | su
 echo "======================="
 echo "Update app and install packages"
 echo "======================="
