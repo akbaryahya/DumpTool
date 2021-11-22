@@ -3,14 +3,17 @@ echo "======================="
 echo "Set password root to $PSW and login?"
 echo "======================="
 echo -e "$PSW\n$PSW\n" | sudo passwd
+
 echo "======================="
 echo "Update app and install packages"
 echo "======================="
 echo $PSW | sudo -S apt update && apt upgrade -y && apt-get install -y git make gcc libpcap-dev curl unzip zip && apt autoremove && pip install --upgrade pip
+
 echo "======================="
 echo "Clone Tool"
 echo "======================="
 mkdir Tool && cd Tool && rm -r *
+
 echo "======================="
 echo "Install Rclone"
 echo "======================="
@@ -27,15 +30,16 @@ else
  cd ..
  echo "Rclone: Mount"
  read -p "Server?: " MTP
- rclone mount $MTP:/ /content/$MTP --daemon
+ mkdir /content/$MTP  && rclone mount $MTP:/ /content/$MTP --daemon
 fi
+
 echo "Install Masscan"
 git clone https://github.com/robertdavidgraham/masscan && cd masscan && make && make install && cd ..
 echo "Install Asleep Scanner"
 git clone https://github.com/d34db33f-1007/asleep_scanner && cd asleep_scanner && pip install . && cd ..
 echo "Install Coolab"
 git clone https://github.com/songlinhou/coolab && cd coolab && pip install . && cd ..
-# cd ..
+
 echo "======================="
 echo "Install Ngrok"
 echo "======================="
@@ -52,3 +56,6 @@ else
  nohup ./ngrok/ngrok tcp 3389 &>/dev/null &
  sudo firefox xrdp xfce4 xfce4-terminal
 fi
+
+# Ending
+cd ..
