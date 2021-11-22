@@ -6,7 +6,7 @@ echo -e "$PSW\n$PSW\n" | sudo passwd
 echo "======================="
 echo "Update app and install packages"
 echo "======================="
-echo $PSW | sudo -S apt update && apt upgrade -y && apt-get install -y git make gcc libpcap-dev curl unzip zip && apt autoremove && python -m pip3 install --upgrade pip
+echo $PSW | sudo -S apt update && apt upgrade -y && apt-get install -y git make gcc libpcap-dev curl unzip zip && apt autoremove && python -m pip install --upgrade pip
 echo "======================="
 echo "Clone Tool"
 echo "======================="
@@ -14,9 +14,9 @@ mkdir Tool && rm -r *
 echo "Install Masscan"
 git clone https://github.com/robertdavidgraham/masscan && cd masscan && make && make install && cd ..
 echo "Install Asleep Scanner"
-git clone https://github.com/d34db33f-1007/asleep_scanner && cd asleep_scanner && pip3 install . & cd ..
+git clone https://github.com/d34db33f-1007/asleep_scanner && cd asleep_scanner && pip install . & cd ..
 echo "Install Coolab"
-git clone https://github.com/songlinhou/coolab && cd coolab && pip3 install . && cd ..
+git clone https://github.com/songlinhou/coolab && cd coolab && pip install . && cd ..
 # cd ..
 echo "======================="
 echo "Install Ngrok"
