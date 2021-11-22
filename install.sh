@@ -10,7 +10,7 @@ echo $PSW | sudo -S apt update && apt upgrade -y && apt-get install -y git make 
 echo "======================="
 echo "Clone Tool"
 echo "======================="
-mkrdir Tool && rm -r *
+mkdir Tool && rm -r *
 echo "Install Masscan"
 git clone https://github.com/robertdavidgraham/masscan && cd masscan && make && make install && cd ..
 echo "Install Asleep Scanner"
