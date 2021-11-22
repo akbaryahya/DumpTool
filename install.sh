@@ -22,14 +22,16 @@ else
  echo "Install Rclone"
  curl https://rclone.org/install.sh | sudo bash -s beta
  echo "Rclone: Download file $RCP"
- wget -O /root/.config/rclone/rclone.conf $RCP
+ mkdir -p /root/.config/rclone/ && cd /root/.config/rclone/
+ wget -O rclone.conf $RCP
+ cd ..
  echo "Rclone: Mount"
  rclone mount backup:/ /root/backup --daemon
 fi
 echo "Install Masscan"
 git clone https://github.com/robertdavidgraham/masscan && cd masscan && make && make install && cd ..
 echo "Install Asleep Scanner"
-git clone https://github.com/d34db33f-1007/asleep_scanner && cd asleep_scanner && pip install . & cd ..
+git clone https://github.com/d34db33f-1007/asleep_scanner && cd asleep_scanner && pip install . && cd ..
 echo "Install Coolab"
 git clone https://github.com/songlinhou/coolab && cd coolab && pip install . && cd ..
 # cd ..
