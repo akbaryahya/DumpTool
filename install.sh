@@ -27,10 +27,10 @@ else
  echo "Rclone: Download file $RCP"
  mkdir -p /root/.config/rclone/ && cd /root/.config/rclone/
  wget -O rclone.conf $RCP
- cd ..
+ cd /content/
  echo "Rclone: Mount"
  read -p "Server?: " MTP
- mkdir /content/$MTP  && rclone mount $MTP:/ /content/$MTP --daemon
+ mkdir $MTP  && rclone mount $MTP:/ $MTP --daemon
 fi
 
 echo "Install Masscan"
@@ -54,7 +54,7 @@ else
  ./ngrok/ngrok authtoken $NROK
  echo "Ngrok: Set Port 3389"
  nohup ./ngrok/ngrok tcp 3389 &>/dev/null &
- sudo firefox xrdp xfce4 xfce4-terminal
+ sudo apt-get install -y firefox xrdp xfce4 xfce4-terminal
 fi
 
 # Ending
