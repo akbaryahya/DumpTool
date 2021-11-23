@@ -1,3 +1,4 @@
+cd /content/
 setup_rclone=false
 setup_ngrok=false
 read -p "Set Password Root: " PSW
@@ -22,13 +23,19 @@ else
  echo "Install Rclone"
  curl https://rclone.org/install.sh | sudo bash -s beta
  echo "Rclone: Download file $RCP"
- mkdir -p /root/.config/rclone/ && cd /root/.config/rclone/
- wget -O rclone.conf $RCP
- cd /content/
+ mkdir -p /root/.config/rclone/
+ wget -O /root/.config/rclone/rclone.conf $RCP
  echo "Rclone: Mount"
  read -p "Server?: " MTP
  mkdir $MTP  && rclone mount $MTP:/ $MTP --daemon
- mkdir -p $MTP/.cache
+ ZDIRT=$MTP/.cache/
+ if [ -d "$ZDIRT" ] 
+ then
+  echo "Found folder cache" 
+ else
+  echo "Error: Directory $ZDIRT does not exists."
+  mkdir -p $ZDIRT
+ fi
  setup_rclone=true
 fi
 
@@ -37,11 +44,11 @@ echo "Setup Ngrok"
 echo "======================="
 if $setup_rclone
 then 
-    echo "Ngrok: Check file..."
     RTSX=$MTP/.cache/ngrok.conf
+    echo "Ngrok: Check file: $RTSX"   
     if test -f "$RTSX"; 
     then
-     echo "Found file token: $RTSX"
+     echo "Found file token"
      NROK=`cat $RTSX`
      setup_ngrok=true
     else
@@ -58,7 +65,7 @@ then
 else 
    read -p "Ngrok Token: " NROK
    if [ -z "$NROK" ]
-   then 
+   then
     echo "Ngrok Skip"
    else
     setup_ngrok=true
@@ -86,7 +93,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
     git clone https://github.com/d34db33f-1007/asleep_scanner && cd asleep_scanner && pip install . && cd ..
 fi
-read -r -p "Install Coolab " response
+read -r -p "Install Coolab? [y/N] " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
     git clone https://github.com/songlinhou/coolab && cd coolab && pip install . && cd ..
@@ -94,4 +101,3 @@ fi
 
 # Ending
 echo "Done..."
-cd ..
