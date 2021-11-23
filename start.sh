@@ -1,3 +1,5 @@
+#!/bin/bash
+
 setup_rclone=false
 setup_ngrok=false
 
