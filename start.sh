@@ -1,33 +1,56 @@
-cd /content/
 setup_rclone=false
 setup_ngrok=false
-read -p "Set Password Root: " PSW
+
+DIR_GD=/content/drive
+DIR_RCLONE=/root/.config/rclone
+
+while getopts u:a:f: flag
+do
+    case "${flag}" in
+        password) SET_PASS=${OPTARG};;
+        rclone) SET_RCLONE=${OPTARG};;
+        ngrok) SET_NGROK=${OPTARG};;
+    esac
+done
+
+cd /content/
+
+if [ -z "$SET_PASS" ]
+then
+ read -p "Set Password Root: " SET_PASS
+fi
 echo "======================="
-echo "Set password root to $PSW and login?"
+echo "Set password root to $SET_PASS and login?"
 echo "======================="
-echo -e "$PSW\n$PSW\n" | sudo passwd
+echo -e "$SET_PASS\n$SET_PASS\n" | sudo passwd
 
 echo "======================="
 echo "Install Packages Base"
 echo "======================="
-echo $PSW | sudo -S apt update && apt upgrade -y && apt-get install -y git make gcc libpcap-dev curl unzip zip && apt autoremove && pip install --upgrade pip
+echo $SET_PASS | sudo -S apt update && apt upgrade -y && apt-get install -y git make gcc libpcap-dev curl unzip zip && apt autoremove && pip install --upgrade pip
 
 echo "======================="
 echo "Setup Rclone"
 echo "======================="
-read -p "Rclone config file: " RCP
-if [ -z "$RCP" ]
+if [ -z "$SET_RCLONE" ]
+then
+ read -p "Rclone config file: " SET_RCLONE
+fi
+if [ -z "$SET_RCLONE" ]
 then 
  echo "Rclone Skip"
 else
  echo "Install Rclone"
  curl https://rclone.org/install.sh | sudo bash -s beta
- echo "Rclone: Download file $RCP"
- mkdir -p /root/.config/rclone/
- wget -O /root/.config/rclone/rclone.conf $RCP
+ echo "Rclone: Download file $SET_RCLONE"
+ mkdir -p $DIR_RCLONE
+ wget -O "$DIR_RCLONE/rclone.conf" $SET_RCLONE
  echo "Rclone: Mount"
  read -p "Server?: " MTP
- mkdir $MTP  && rclone mount $MTP:/ $MTP --daemon
+ DIR_GD_ROOT="$DIR_GD/$MTP"
+ echo "Rclone: Set Folder Server to $DIR_GD_ROOT"
+ mkdir $DIR_GD_ROOT
+ rclone mount $MTP:/ $DIR_GD_ROOT --daemon
  ZDIRT=$MTP/.cache/
  if [ -d "$ZDIRT" ] 
  then
@@ -49,22 +72,28 @@ then
     if test -f "$RTSX"; 
     then
      echo "Found file token"
-     NROK=`cat $RTSX`
+     SET_NGROK=`cat $RTSX`
      setup_ngrok=true
     else
-     read -p "Ngrok Token: " NROK
-     if [ -z "$NROK" ]
+     if [ -z "$SET_NGROK" ]
+     then
+      read -p "Ngrok Token: " SET_NGROK
+     fi
+     if [ -z "$SET_NGROK" ]
      then 
       echo "Ngrok: Skip"
      else
       echo "Ngrok: Save Token"
       setup_ngrok=true
-      echo "$NROK" >> "$RTSX"
+      echo "$SET_NGROK" >> "$RTSX"
      fi
     fi
 else 
-   read -p "Ngrok Token: " NROK
-   if [ -z "$NROK" ]
+   if [ -z "$SET_NGROK" ]
+   then
+    read -p "Ngrok Token: " SET_NGROK
+   fi
+   if [ -z "$SET_NGROK" ]
    then
     echo "Ngrok Skip"
    else
@@ -77,7 +106,7 @@ then
  echo "Ngrok Install"
  wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip && unzip ngrok.zip
  echo "Ngrok: Set Token"
- ./ngrok/ngrok authtoken $NROK
+ ./ngrok/ngrok authtoken $SET_NGROK
  echo "Ngrok: Set Port 3389"
  nohup ./ngrok/ngrok tcp 3389 &>/dev/null &
  sudo apt-get install -y firefox xrdp xfce4 xfce4-terminal
