@@ -1,5 +1,4 @@
 #!/bin/bash
-echo "the $1 eats a $2 every time there is a $3"
 
 setup_rclone=false
 setup_ngrok=false
@@ -41,11 +40,11 @@ else
  echo "Install Rclone"
  curl https://rclone.org/install.sh | sudo bash -s beta
  echo "Rclone: Download file $SET_RCLONE"
- mkdir -p $DIR_RCLONE
+ mkdir -p "$DIR_RCLONE/"
  wget -O "$DIR_RCLONE/rclone.conf" $SET_RCLONE
  echo "Rclone: Mount"
  read -p "Server?: " MTP
- DIR_GD_ROOT="$DIR_GD/$MTP"
+ DIR_GD_ROOT="$DIR_GD/$MTP/"
  echo "Rclone: Set Folder Server to $DIR_GD_ROOT"
  mkdir $DIR_GD_ROOT
  rclone mount $MTP:/ $DIR_GD_ROOT --daemon
