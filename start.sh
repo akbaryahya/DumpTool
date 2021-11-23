@@ -1,3 +1,6 @@
+#!/bin/bash
+echo "the $1 eats a $2 every time there is a $3"
+
 setup_rclone=false
 setup_ngrok=false
 
