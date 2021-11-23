@@ -1,19 +1,12 @@
-#!/bin/bash
-
 setup_rclone=false
 setup_ngrok=false
 
 DIR_GD=/content/drive
 DIR_RCLONE=/root/.config/rclone
 
-while getopts u:a:f: flag
-do
-    case "${flag}" in
-        password) SET_PASS=${OPTARG};;
-        rclone) SET_RCLONE=${OPTARG};;
-        ngrok) SET_NGROK=${OPTARG};;
-    esac
-done
+SET_PASS=$1
+SET_RCLONE=$2
+SET_NGROK=$3
 
 cd /content/
 
