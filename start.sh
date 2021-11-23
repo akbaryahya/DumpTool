@@ -35,20 +35,30 @@ fi
 echo "======================="
 echo "Setup Ngrok"
 echo "======================="
-
 if $setup_rclone
 then 
     echo "Ngrok: Check file..."
     RTSX=$MTP/.cache/ngrok.conf
     if test -f "$RTSX"; then
-    echo "Found: $RTSX"
+     echo "Found file token: $RTSX"
      NROK=`cat $RTSX`
+     setup_ngrok=true
+    else
+     read -p "Ngrok Token: " NROK
+     if [ -z "$NROK" ]
+     then 
+      echo "Ngrok: Skip"
+     else
+      echo "Ngrok: Save Token"
+      setup_ngrok=true
+      echo "$NROK" >> "$RTSX"
+     fi
     fi
 else 
    read -p "Ngrok Token: " NROK
    if [ -z "$NROK" ]
    then 
-    echo "RDP Skip"
+    echo "Ngrok Skip"
    else
     setup_ngrok=true
    fi
