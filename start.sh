@@ -39,7 +39,8 @@ if $setup_rclone
 then 
     echo "Ngrok: Check file..."
     RTSX=$MTP/.cache/ngrok.conf
-    if test -f "$RTSX"; then
+    if test -f "$RTSX"; 
+    then
      echo "Found file token: $RTSX"
      NROK=`cat $RTSX`
      setup_ngrok=true
