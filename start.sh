@@ -52,7 +52,7 @@ else
  echo "Rclone: Set Folder Server to $DIR_GD_ROOT"
  mkdir -p $DIR_GD_ROOT
  rclone mount $SET_SERVER_GD:/ $DIR_GD_ROOT --daemon
- ZDIRT=$SET_SERVER_GD/.cache/
+ ZDIRT=$DIR_GD_ROOT/.cache/
  if [ -d "$ZDIRT" ] 
  then
   echo "Found folder cache" 
@@ -68,9 +68,9 @@ echo "Setup Ngrok"
 echo "======================="
 if $setup_rclone
 then 
-    RTSX=$SET_SERVER_GD/.cache/ngrok.conf
-    echo "Ngrok: Check file: $RTSX"   
-    if test -f "$RTSX"; 
+    RTSX=$DIR_GD_ROOT/.cache/ngrok.conf
+    echo "Ngrok: Check file: $RTSX"
+    if test -f "$RTSX";
     then
      echo "Found file token"
      SET_NGROK=`cat $RTSX`
