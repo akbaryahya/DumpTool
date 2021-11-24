@@ -52,10 +52,10 @@ else
  echo "Rclone: Set Folder Server to $DIR_GD_ROOT"
  mkdir -p $DIR_GD_ROOT
  rclone mount $SET_SERVER_GD:/ $DIR_GD_ROOT --daemon
- ZDIRT=$DIR_GD_ROOT/.cache/
+ ZDIRT="${DIR_GD_ROOT}cache/"
  if [ -d "$ZDIRT" ] 
  then
-  echo "Found folder cache" 
+  echo "Found folder cache: $ZDIRT" 
  else
   echo "Error: Directory $ZDIRT does not exists."
   mkdir -p $ZDIRT
@@ -68,7 +68,7 @@ echo "Setup Ngrok"
 echo "======================="
 if $setup_rclone
 then 
-    RTSX=$DIR_GD_ROOT/.cache/ngrok.conf
+    RTSX=${ZDIRT}ngrok.conf
     echo "Ngrok: Check file: $RTSX"
     if test -f "$RTSX";
     then
@@ -106,10 +106,11 @@ if $setup_ngrok
 then 
  echo "Ngrok Install"
  wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip && unzip ngrok.zip
+ ls
  echo "Ngrok: Set Token"
- ./ngrok/ngrok authtoken $SET_NGROK
+ ./ngrok authtoken $SET_NGROK
  echo "Ngrok: Set Port 3389"
- nohup ./ngrok/ngrok tcp 3389 &>/dev/null &
+ nohup ./ngrok tcp 3389 &>/dev/null &
  sudo apt-get install -y firefox xrdp xfce4 xfce4-terminal
 fi
 
