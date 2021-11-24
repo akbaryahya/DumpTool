@@ -9,6 +9,7 @@ DIR_RCLONE=/root/.config/rclone
 SET_PASS=$1
 SET_RCLONE=$2
 SET_NGROK=$3
+SET_SERVER_GD=$4
 
 cd /content/
 
@@ -43,12 +44,15 @@ else
  mkdir -p "$DIR_RCLONE/"
  wget -O "$DIR_RCLONE/rclone.conf" $SET_RCLONE
  echo "Rclone: Mount"
- read -p "Server?: " MTP
- DIR_GD_ROOT="$DIR_GD/$MTP/"
+ if [ -z "$SET_SERVER_GD" ]
+ then
+  read -p "Server?: " SET_SERVER_GD
+ fi 
+ DIR_GD_ROOT="$DIR_GD/$SET_SERVER_GD/"
  echo "Rclone: Set Folder Server to $DIR_GD_ROOT"
- mkdir $DIR_GD_ROOT
- rclone mount $MTP:/ $DIR_GD_ROOT --daemon
- ZDIRT=$MTP/.cache/
+ mkdir -p $DIR_GD_ROOT
+ rclone mount $SET_SERVER_GD:/ $DIR_GD_ROOT --daemon
+ ZDIRT=$SET_SERVER_GD/.cache/
  if [ -d "$ZDIRT" ] 
  then
   echo "Found folder cache" 
@@ -64,7 +68,7 @@ echo "Setup Ngrok"
 echo "======================="
 if $setup_rclone
 then 
-    RTSX=$MTP/.cache/ngrok.conf
+    RTSX=$SET_SERVER_GD/.cache/ngrok.conf
     echo "Ngrok: Check file: $RTSX"   
     if test -f "$RTSX"; 
     then
