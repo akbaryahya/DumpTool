@@ -52,7 +52,7 @@ else
  echo "Rclone: Set Folder Server to $DIR_GD_ROOT"
  mkdir -p $DIR_GD_ROOT
  rclone mount $SET_SERVER_GD:/ $DIR_GD_ROOT --daemon
- ZDIRT="${DIR_GD_ROOT}cache/"
+ ZDIRT="${DIR_GD_ROOT}.cache/"
  if [ -d "$ZDIRT" ] 
  then
   echo "Found folder cache: $ZDIRT" 
@@ -104,14 +104,11 @@ fi
 
 if $setup_ngrok
 then 
- echo "Ngrok Install"
+ echo "Ngrok Install..."
  wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip && unzip ngrok.zip
  ls
  echo "Ngrok: Set Token"
- ./ngrok authtoken $SET_NGROK
- echo "Ngrok: Set Port 3389"
- nohup ./ngrok tcp 3389 &>/dev/null &
- sudo apt-get install -y firefox xrdp xfce4 xfce4-terminal
+ ./ngrok authtoken $SET_NGROK 
 fi
 
 read -r -p "Install masscan? [y/N] " response
@@ -119,15 +116,23 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
     git clone https://github.com/robertdavidgraham/masscan && cd masscan && make && make install && cd ..
 fi
-read -r -p "Install asleep scanner? [y/N] " response
-if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
-then
-    git clone https://github.com/d34db33f-1007/asleep_scanner && cd asleep_scanner && pip install . && cd ..
-fi
 read -r -p "Install Coolab? [y/N] " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
     git clone https://github.com/songlinhou/coolab && cd coolab && pip install . && cd ..
+fi
+read -r -p "Install RDP? [y/N] " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
+then
+    #TODO: check ngrok limit
+    echo "Ngrok: Set Port 3389"
+    nohup ./ngrok tcp 3389 &>/dev/null &
+    sudo apt-get install -y firefox xrdp xfce4 xfce4-terminal
+fi
+read -r -p "Install asleep scanner? [y/N] " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
+then
+    git clone https://github.com/d34db33f-1007/asleep_scanner && cd asleep_scanner && pip install . && cd ..
 fi
 
 # Ending
