@@ -51,6 +51,7 @@ else
  DIR_GD_ROOT="$DIR_GD/$SET_SERVER_GD/"
  echo "Rclone: Set Folder Server to $DIR_GD_ROOT"
  mkdir -p $DIR_GD_ROOT
+ fusermount -u $SET_SERVER_GD
  rclone mount $SET_SERVER_GD:/ $DIR_GD_ROOT --daemon
  ZDIRT="${DIR_GD_ROOT}.cache/"
  if [ -d "$ZDIRT" ] 
@@ -105,7 +106,7 @@ fi
 if $setup_ngrok
 then 
  echo "Ngrok Install..."
- wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip && unzip ngrok.zip
+ wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip && unzip -o ngrok.zip
  ls
  echo "Ngrok: Set Token"
  ./ngrok authtoken $SET_NGROK 
