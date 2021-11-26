@@ -26,11 +26,7 @@ echo -e "$SET_PASS\n$SET_PASS\n" | sudo passwd
 echo "======================="
 echo "Install Packages Base"
 echo "======================="
-apt update
-apt upgrade -y
-apt-get install -y git make gcc libpcap-dev libsqlite3-dev curl unzip zip
-apt autoremove
-pip3 install --upgrade pip
+echo $SET_PASS | sudo -S apt update && apt upgrade -y && apt-get install -y git make gcc libpcap-dev libsqlite3-dev curl unzip zip && apt autoremove && pip3 install --upgrade pip
 # apt install libpcap-dev libsqlite3-dev echo $SET_PASS | sudo -S 
 echo "======================="
 echo "Setup Rclone"
