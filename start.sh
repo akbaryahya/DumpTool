@@ -12,9 +12,6 @@ SET_RCLONE=$2
 SET_NGROK=$3
 SET_SERVER_GD=$4
 
-mkdir -p /content/
-cd /content/
-
 if [ -z "$SET_PASS" ]
 then
  read -p "Set Password Root: " SET_PASS
@@ -28,6 +25,11 @@ echo "Install Packages Base"
 echo "======================="
 echo $SET_PASS | sudo -S apt update && apt upgrade -y && apt-get install -y git make gcc libpcap-dev libsqlite3-dev curl unzip zip && apt autoremove && pip3 install --upgrade pip
 # apt install libpcap-dev libsqlite3-dev echo $SET_PASS | sudo -S 
+echo "======================="
+echo "Setup Folder Base"
+echo "======================="
+mkdir -p /content/
+cd /content/
 echo "======================="
 echo "Setup Rclone"
 echo "======================="
