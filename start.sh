@@ -21,7 +21,7 @@ echo "======================="
 echo "Set password root to $SET_PASS and login?"
 echo "======================="
 echo -e "$SET_PASS\n$SET_PASS\n" | sudo passwd
-
+sudo su
 echo "======================="
 echo "Install Packages Base"
 echo "======================="
@@ -120,7 +120,7 @@ fi
 read -r -p "Install Coolab? [y/N] " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
-    git clone https://github.com/songlinhou/coolab && cd coolab && pip install . && cd ..
+    git clone https://github.com/songlinhou/coolab && cd coolab && pip3 install . && cd ..
 fi
 read -r -p "Install RDP? [y/N] " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
@@ -133,7 +133,7 @@ fi
 read -r -p "Install asleep scanner? [y/N] " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
-    git clone https://github.com/d34db33f-1007/asleep_scanner && cd asleep_scanner && pip install . && cd ..
+    git clone https://github.com/d34db33f-1007/asleep_scanner && cd asleep_scanner && pip3 install . && cd ..
 fi
 
 # Ending
