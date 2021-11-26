@@ -31,7 +31,7 @@ echo "======================="
 apt update
 apt upgrade -y
 apt-get upgrade -y
-apt-get install -y git make gcc libpcap-dev libsqlite3-dev curl unzip zip
+apt-get install -y git make gcc libpcap-dev libsqlite3-dev curl unzip zip python3-pip
 apt autoremove 
 pip3 install --upgrade pip
 # apt install libpcap-dev libsqlite3-dev echo $SET_PASS | sudo -S 
