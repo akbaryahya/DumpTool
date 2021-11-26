@@ -1,5 +1,9 @@
 #!/bin/bash
-[ `whoami` = root ] || { sudo "$0" "$@"; exit $?; }
+
+if [ "$EUID" -ne 0 ]
+  then echo "We don't support NO-ROOT so please use root user so you can do anything unlimited"
+  exit
+fi
 
 setup_rclone=false
 setup_ngrok=false
@@ -19,11 +23,11 @@ fi
 echo "======================="
 echo "Set password root to $SET_PASS and login?"
 echo "======================="
-echo -e "$SET_PASS\n$SET_PASS\n" | sudo passwd
+echo -e "$SET_PASS\n$SET_PASS\n" | passwd
 echo "======================="
 echo "Install Packages Base"
 echo "======================="
-echo $SET_PASS | sudo -S apt update && apt upgrade -y && apt-get install -y git make gcc libpcap-dev libsqlite3-dev curl unzip zip && apt autoremove && pip3 install --upgrade pip
+apt update && apt upgrade -y && apt-get install -y git make gcc libpcap-dev libsqlite3-dev curl unzip zip && apt autoremove && pip3 install --upgrade pip
 # apt install libpcap-dev libsqlite3-dev echo $SET_PASS | sudo -S 
 echo "======================="
 echo "Setup Folder Base"
@@ -42,7 +46,7 @@ then
  echo "Rclone Skip"
 else
  echo "Install Rclone"
- curl https://rclone.org/install.sh | sudo bash -s beta
+ curl https://rclone.org/install.sh | bash -s beta
  echo "Rclone: Download file $SET_RCLONE"
  mkdir -p "$DIR_RCLONE/"
  wget -O "$DIR_RCLONE/rclone.conf" $SET_RCLONE
@@ -133,7 +137,7 @@ then
     #TODO: check ngrok limit
     echo "Ngrok: Set Port 3389"
     nohup ./ngrok tcp 3389 &>/dev/null &
-    sudo apt-get install -y firefox xrdp xfce4 xfce4-terminal
+    apt-get install -y firefox xrdp xfce4 xfce4-terminal
 fi
 read -r -p "Install asleep scanner? [y/N] " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
