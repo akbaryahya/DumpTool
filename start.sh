@@ -133,15 +133,11 @@ do
 
     if [[ "$i" == *"masscan"* ]]; then
      git clone https://github.com/robertdavidgraham/masscan && cd masscan && make && make install && cd ..
-    else
-     echo "Skip..."
     fi
 
     if [[ "$i" == *"coolab"* ]]; then
      pip3 install google-colab tqdm
      git clone https://github.com/songlinhou/coolab && cd coolab && pip3 install . && cd ..
-    else
-     echo "Skip..."
     fi
 
     if [[ "$i" == *"rdp"* ]]; then
@@ -149,14 +145,10 @@ do
      echo "Ngrok: Set Port 3389"
      nohup ./ngrok tcp 3389 &>/dev/null &
      apt-get install -y firefox xrdp xfce4 xfce4-terminal
-    else
-     echo "Skip..."
     fi
 
     if [[ "$i" == *"asleep"* ]]; then
      git clone https://github.com/d34db33f-1007/asleep_scanner && cd asleep_scanner && pip3 install . && cd ..
-    else
-     echo "Skip..."
     fi
 
 done
