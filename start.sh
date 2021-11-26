@@ -30,7 +30,7 @@ apt update
 apt upgrade -y
 apt-get install -y git make gcc libpcap-dev libsqlite3-dev curl unzip zip
 apt autoremove
-pip install --upgrade pip
+pip3 install --upgrade pip
 # apt install libpcap-dev libsqlite3-dev echo $SET_PASS | sudo -S 
 echo "======================="
 echo "Setup Rclone"
