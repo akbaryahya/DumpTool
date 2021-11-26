@@ -1,4 +1,5 @@
 #!/bin/bash
+[ `whoami` = root ] || { sudo "$0" "$@"; exit $?; }
 
 setup_rclone=false
 setup_ngrok=false
@@ -11,6 +12,7 @@ SET_RCLONE=$2
 SET_NGROK=$3
 SET_SERVER_GD=$4
 
+mkdir -p /content/
 cd /content/
 
 if [ -z "$SET_PASS" ]
@@ -21,7 +23,6 @@ echo "======================="
 echo "Set password root to $SET_PASS and login?"
 echo "======================="
 echo -e "$SET_PASS\n$SET_PASS\n" | sudo passwd
-sudo su
 echo "======================="
 echo "Install Packages Base"
 echo "======================="
