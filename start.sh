@@ -120,6 +120,7 @@ fi
 read -r -p "Install Coolab? [y/N] " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
+    pip3 install google-colab
     git clone https://github.com/songlinhou/coolab && cd coolab && pip3 install . && cd ..
 fi
 read -r -p "Install RDP? [y/N] " response
