@@ -54,7 +54,7 @@ else
  echo "Rclone: UnMount $DIR_GD_ROOT"
  fusermount -uz $DIR_GD_ROOT
  echo "Rclone: Set Folder Server to $DIR_GD_ROOT"
- rclone mount $SET_SERVER_GD:/ $DIR_GD_ROOT --daemon
+ rclone mount --umask=0 $SET_SERVER_GD:/ $DIR_GD_ROOT --daemon
  ZDIRT="${DIR_GD_ROOT}.cache/"
  if [ -d "$ZDIRT" ] 
  then
