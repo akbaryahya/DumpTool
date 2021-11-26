@@ -49,9 +49,10 @@ else
   read -p "Server?: " SET_SERVER_GD
  fi 
  DIR_GD_ROOT="$DIR_GD/$SET_SERVER_GD/"
- echo "Rclone: Set Folder Server to $DIR_GD_ROOT"
  mkdir -p $DIR_GD_ROOT
+ echo "Rclone: UnMount $DIR_GD_ROOT"
  fusermount -uz $DIR_GD_ROOT
+ echo "Rclone: Set Folder Server to $DIR_GD_ROOT"
  rclone mount $SET_SERVER_GD:/ $DIR_GD_ROOT --daemon
  ZDIRT="${DIR_GD_ROOT}.cache/"
  if [ -d "$ZDIRT" ] 
@@ -120,7 +121,7 @@ fi
 read -r -p "Install Coolab? [y/N] " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
-    pip3 install google-colab
+    pip3 install google-colab tqdm
     git clone https://github.com/songlinhou/coolab && cd coolab && pip3 install . && cd ..
 fi
 read -r -p "Install RDP? [y/N] " response
