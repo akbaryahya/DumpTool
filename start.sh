@@ -15,6 +15,7 @@ SET_PASS=$1
 SET_RCLONE=$2
 SET_NGROK=$3
 SET_SERVER_GD=$4
+SET_INSTALL=$5
 
 if [ -z "$SET_PASS" ]
 then
@@ -125,30 +126,40 @@ then
  ./ngrok authtoken $SET_NGROK 
 fi
 
-read -r -p "Install masscan? [y/N] " response
-if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
-then
-    git clone https://github.com/robertdavidgraham/masscan && cd masscan && make && make install && cd ..
-fi
-read -r -p "Install Coolab? [y/N] " response
-if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
-then
-    pip3 install google-colab tqdm
-    git clone https://github.com/songlinhou/coolab && cd coolab && pip3 install . && cd ..
-fi
-read -r -p "Install RDP? [y/N] " response
-if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
-then
-    #TODO: check ngrok limit
-    echo "Ngrok: Set Port 3389"
-    nohup ./ngrok tcp 3389 &>/dev/null &
-    apt-get install -y firefox xrdp xfce4 xfce4-terminal
-fi
-read -r -p "Install asleep scanner? [y/N] " response
-if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
-then
-    git clone https://github.com/d34db33f-1007/asleep_scanner && cd asleep_scanner && pip3 install . && cd ..
-fi
+ARR_INSTALL=($(echo $SET_INSTALL | tr ";" "\n"))
+for i in "${ARR_INSTALL[@]}"
+do
+    echo "Install $i"
+
+    if [[ "$i" == *"masscan"* ]]; then
+     git clone https://github.com/robertdavidgraham/masscan && cd masscan && make && make install && cd ..
+    else
+     echo "Skip..."
+    fi
+
+    if [[ "$i" == *"coolab"* ]]; then
+     pip3 install google-colab tqdm
+     git clone https://github.com/songlinhou/coolab && cd coolab && pip3 install . && cd ..
+    else
+     echo "Skip..."
+    fi
+
+    if [[ "$i" == *"rdp"* ]]; then
+     #TODO: check ngrok limit
+     echo "Ngrok: Set Port 3389"
+     nohup ./ngrok tcp 3389 &>/dev/null &
+     apt-get install -y firefox xrdp xfce4 xfce4-terminal
+    else
+     echo "Skip..."
+    fi
+
+    if [[ "$i" == *"asleep"* ]]; then
+     git clone https://github.com/d34db33f-1007/asleep_scanner && cd asleep_scanner && pip3 install . && cd ..
+    else
+     echo "Skip..."
+    fi
+
+done
 
 # Ending
 echo "Done..."
