@@ -52,7 +52,7 @@ then
  echo "Rclone Skip"
 else
  echo "Install Rclone"
- curl https://rclone.org/install.sh | bash -s beta
+ curl https://rclone.org/install.sh | sudo bash -s beta
  echo "Rclone: Download file $SET_RCLONE"
  mkdir -p "$DIR_RCLONE/"
  wget -O "$DIR_RCLONE/rclone.conf" $SET_RCLONE
