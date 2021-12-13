@@ -31,7 +31,10 @@ echo "======================="
 apt update
 apt upgrade -y
 apt-get upgrade -y
-apt-get install -y git make gcc libpcap-dev libsqlite3-dev curl unzip zip python3-pip
+apt-get install -y git make gcc libpcap-dev libsqlite3-dev curl unzip zip python3-pip tor nmap proxychains
+# nano /etc/proxychains.conf
+# proxychains masscan -c myscan.conf --resume paused.conf
+# proxychains nmap -sT -PN -n -sV -p 80,443,21,22 217.xx.xx.xx
 apt autoremove 
 pip3 install --upgrade pip
 # apt install libpcap-dev libsqlite3-dev echo $SET_PASS | sudo -S 
