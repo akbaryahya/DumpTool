@@ -65,7 +65,8 @@ else
  rclone --version
  echo "Rclone: Download file $SET_RCLONE"
  mkdir -p "$DIR_RCLONE/"
- wget -O "$DIR_RCLONE/rclone.conf" $SET_RCLONE
+ #wget -O "$DIR_RCLONE/rclone.conf" $SET_RCLONE
+ echo -e "[$SET_SERVER_GD]\ntype = drive\nscope = drive\ntoken = $SET_RCLONE\nteam_drive =" >> $DIR_RCLONE/rclone.conf
  echo "Rclone: Mount"
  if [ -z "$SET_SERVER_GD" ]
  then
